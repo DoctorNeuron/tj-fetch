@@ -4,6 +4,10 @@
         {
             "path": "/",
             "schedule": "0 5 * * *"
+        },
+        {
+            "path": "/sync",
+            "schedule": "0 5 * * *"
         }
     ]
 }
