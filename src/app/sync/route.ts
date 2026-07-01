@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   }
 
   const currentDate = DateTime.now().setZone('Asia/Jakarta').toFormat('yyyyMMdd');
+  const currentDateStripes = DateTime.now().setZone('Asia/Jakarta').toFormat('yyyy-MM-dd');
 
   const s3Client = new S3Client({
     credentials: {
@@ -176,7 +177,7 @@ export async function GET(request: Request) {
     .map(x => ({
       ...x,
       isDeleted: true,
-      effectiveDate: currentDate
+      effectiveDate: currentDateStripes
     }));
 
   console.log(`Found ${deletedCorridor.length} deleted corridors`);
@@ -189,8 +190,8 @@ export async function GET(request: Request) {
     finalCorridorData.push({
       ...corridor,
       no: finalCorridorData.length + 1,
-      pictureEffectiveDate: corridor.isImageNew ? currentDate : corridor.prevPictureVersion || currentDate,
-      effectiveDate: currentDate,
+      pictureEffectiveDate: corridor.isImageNew ? currentDateStripes : corridor.prevPictureVersion || currentDateStripes,
+      effectiveDate: currentDateStripes,
       isDeleted: false
     });
   }
@@ -200,7 +201,7 @@ export async function GET(request: Request) {
     finalCorridorData.push({
       ...corridor,
       no: finalCorridorData.length + 1,
-      effectiveDate: currentDate,
+      effectiveDate: currentDateStripes,
       isDeleted: true
     });
   }
